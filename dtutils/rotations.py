@@ -147,7 +147,7 @@ def gen_cache_rand_rot(n_dim, n_samples, regenerate=False):
     return res
 
 
-def gen_disp_ds(x, n_smpl_rot=100, n_rot=1, labels=None, regenerate_mtx=False):
+def gen_disp_ds(x, n_smpl_rot=100, n_rot=1, labels=None, regenerate_mtx=False, x_v=None):
     d = {
      't': [],
      'x': [],
@@ -158,6 +158,15 @@ def gen_disp_ds(x, n_smpl_rot=100, n_rot=1, labels=None, regenerate_mtx=False):
      }
 
     n_smpl, n = x.shape
+    
+    if x_v is not None:
+        n_smpl_v, n_v = x_v.shape
+        assert n_smpl_v == n_smpl
+        assert n_v == n
+        
+        d['u'] = []
+        d['v'] = []
+    
 
     rot_mtxs = gen_cache_rand_rot(n, n_rot+1, regenerate=regenerate_mtx)
 
@@ -187,5 +196,12 @@ def gen_disp_ds(x, n_smpl_rot=100, n_rot=1, labels=None, regenerate_mtx=False):
             d['y'].extend(list(v_p[1]))
             d['l'].extend(lbls)
             d['n'].extend(list(range(n_smpl)))
+            
+            if x_v is not None:
+                v_p_v, z_v = get_projection(n, r_rs, rr_rs, r_d, rr_d, x_v.T, t)
+
+                d['u'].extend(list(v_p_v[0]))
+                d['v'].extend(list(v_p_v[1]))
+                
 
     return d
