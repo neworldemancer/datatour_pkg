@@ -28,20 +28,26 @@ ndv.display()
 ```
 By default selects randomly `n_subsample=500` samples for efficiency reason.
 
+To visualize vector field `vf` of the same dimension (in the same feature space):
 
+```
+ndv = dt(f, vf)
+ndv.display_quiver(color='z_scaled')
+```
 
 Also check examples:
 
 ```
 dt().display()
 ```
-[here goes picture]
+![cube](https://raw.githubusercontent.com/neworldemancer/datatour_pkg/master/media/cube.png)
 
 
 ```
-ndv = dt(example='sphere')
+ndv = dt(example='sphere', n_subsample=0)
 ndv.display(color='z_scaled')
 ```
+![sphere](https://raw.githubusercontent.com/neworldemancer/datatour_pkg/master/media/sphere.png)
 
 ---
 Licence

@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='datatour',
-    version='0.1',
+    version='0.2',
     scripts=['datatour'] ,
     author="Mykhailo Vladymyrov",
     author_email="neworldemancer@gmail.com",

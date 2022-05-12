@@ -55,7 +55,8 @@ def scale_features(f, f_v):
     f /= norm
     f -= 1
     
-    f_v /= norm
+    if f_v is not None:
+        f_v /= norm
     return f, f_v
 
 
