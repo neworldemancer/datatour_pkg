@@ -1,0 +1,18 @@
+# Do not edit - changes here will be overwritten by Copier
+_commit: v1
+_src_path: gh:pydev-guide/pyrepo-copier
+author_email: neworldemancer@gmail.com
+author_name: Mykhailo Vladymyrov
+github_username: neworldemancer/datatour_pkg
+mode: tooling
+module_name: datatour
+project_name: datatour
+project_short_description: 'Seeing is important. `datatour` - allows you to see your
+    data in it''s native dimension.
+
+    Currently implemented as a `plotly` scatter plot projected from it''s original
+    dimension in the 2D on the screen with timeline animation inspired by GrandTour
+    and common sense.
+
+    '
+
