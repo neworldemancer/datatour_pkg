@@ -1,13 +1,12 @@
 DataTour
 ---
-=======
 # datatour
 
-[![License](https://img.shields.io/pypi/l/datatour.svg?color=green)](https://github.com/neworldemancer/datatour_pkg/datatour/raw/main/LICENSE)
+[![License](https://img.shields.io/pypi/l/datatour.svg?color=green)](https://github.com/neworldemancer/datatour_pkg/raw/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/datatour.svg?color=green)](https://pypi.org/project/datatour)
 [![Python Version](https://img.shields.io/pypi/pyversions/datatour.svg?color=green)](https://python.org)
-[![CI](https://github.com/neworldemancer/datatour_pkg/datatour/actions/workflows/ci.yml/badge.svg)](https://github.com/neworldemancer/datatour_pkg/datatour/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/neworldemancer/datatour_pkg/datatour/branch/main/graph/badge.svg)](https://codecov.io/gh/neworldemancer/datatour_pkg/datatour)
+[![CI](https://github.com/neworldemancer/datatour_pkg/datatour/actions/workflows/ci.yml/badge.svg)](https://github.com/neworldemancer/datatour_pkg/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/neworldemancer/datatour_pkg/datatour/branch/main/graph/badge.svg)](https://codecov.io/gh/neworldemancer/datatour_pkg)
 
 DataTour
 ---
