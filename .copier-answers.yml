@@ -3,7 +3,7 @@ _commit: v1
 _src_path: gh:pydev-guide/pyrepo-copier
 author_email: neworldemancer@gmail.com
 author_name: Mykhailo Vladymyrov
-github_username: neworldemancer/datatour_pkg
+github_username: neworldemancer
 mode: tooling
 module_name: datatour
 project_name: datatour

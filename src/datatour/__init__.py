@@ -9,7 +9,8 @@ inspired by GrandTour and common sense.
 
 from importlib.metadata import PackageNotFoundError, version
 
-# from . import datatour
+from . import datatour
+from .datatour import DataTour
 
 try:
     __version__ = version("datatour")
@@ -17,3 +18,5 @@ except PackageNotFoundError:
     __version__ = "uninstalled"
 __author__ = "Mykhailo Vladymyrov"
 __email__ = "neworldemancer@gmail.com"
+
+__all__ = ["datatour", "DataTour"]
