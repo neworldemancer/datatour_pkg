@@ -8,9 +8,9 @@ on:
       - "v*"
   pull_request:
   workflow_dispatch:
-  schedule:
-    # run every week (for --pre release tests)
-    - cron: "0 0 * * 0"
+  #schedule:
+  #  # run every week (for --pre release tests)
+  #  - cron: "0 0 * * 0"
 
 # cancel in-progress runs that use the same workflow and branch
 concurrency:

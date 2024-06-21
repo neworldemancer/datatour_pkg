@@ -3,6 +3,7 @@
 import os
 import pickle
 import tempfile
+from typing import Iterable, List, Optional, Tuple
 
 import numpy as np
 from scipy import sparse
@@ -11,7 +12,9 @@ _CACHE_ROOT = os.path.join(tempfile.gettempdir(), "GrandTour_RM_cache")
 os.makedirs(_CACHE_ROOT, exist_ok=True)
 
 
-def get_rand_rot(n, i, j, phi=None):
+def get_rand_rot(
+    n: int, i: int, j: int, phi: Optional[float] = None
+) -> sparse.coo_matrix:
     """Generate a rotation matrix in the i-j plane of an n-dimensional space."""
     phi = phi or np.random.uniform(0, np.pi * 2)
     c = np.cos(phi)
@@ -30,7 +33,7 @@ def get_rand_rot(n, i, j, phi=None):
     return rot_mtx
 
 
-def get_rand_rot_rev(n):
+def get_rand_rot_rev(n: int) -> sparse.coo_matrix:
     """Generate a random rotation matrix in the n-dimensional space."""
     rot_matrices = []
     for i in range(n - 1):
@@ -45,12 +48,12 @@ def get_rand_rot_rev(n):
     return r_prod
 
 
-def get_rand_rot_rev_d(n):
+def get_rand_rot_rev_d(n: int) -> Tuple[np.ndarray, np.ndarray]:
     """Generate a random rotation+inv matrix in the n-dimensional space."""
     rot_mtx_row_prod = []
     for i in range(n - 1):
         print(f"i={i}", end="\r")
-        r_row = None
+        r_row: sparse.coo_matrix = None
         for j in range(i + 1, n):
             r = get_rand_rot(n, i, j)
             if j == i + 1:
@@ -68,12 +71,19 @@ def get_rand_rot_rev_d(n):
     return r_prod, rr_prod
 
 
-def get_r_phi(n, phi):
+def get_r_phi(n: int, phi: float) -> np.ndarray:
     """Get a rotation matrix in the xy plane of the n-d space with angle phi."""
     return np.array(get_rand_rot(n, 0, 1, phi).todense())
 
 
-def get_projection(n, r_rs, rr_rs, r_d, rr_d, v, phi):
+def get_projection(
+    n: int,
+    r_rs: np.ndarray,
+    rr_rs: np.ndarray,
+    r_d: np.ndarray,
+    v: np.ndarray,
+    phi: float,
+) -> Tuple[np.ndarray, np.ndarray]:
     """Project a point in the n-dimensional space to the display 2D plane."""
     r_p = get_r_phi(n, phi)
     v_d = r_d @ (rr_rs @ (r_p @ (r_rs @ v)))
@@ -87,26 +97,26 @@ def get_projection(n, r_rs, rr_rs, r_d, rr_d, v, phi):
     return v_p, z
 
 
-def get_cache_file(n_dim):
+def get_cache_file(n_dim: int) -> str:
     """Get the cache file name for n_dim rotations."""
     os.makedirs(_CACHE_ROOT, exist_ok=True)
     return os.path.join(_CACHE_ROOT, f"rot_cache_{n_dim}.pckl")
 
 
-def load_pckl(file_name):
+def load_pckl(file_name: str) -> dict:
     """Load a pickle file."""
     with open(file_name, "rb") as f:
-        data = pickle.load(f)
+        data: dict = pickle.load(f)
     return data
 
 
-def save_pckl(d, file_name):
+def save_pckl(d: dict, file_name: str) -> None:
     """Save an object to a pickle file."""
     with open(file_name, "wb") as f:
         pickle.dump(d, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def load_cached_rot_mtxs(n_dim):
+def load_cached_rot_mtxs(n_dim: int) -> dict:
     """Load the cached n_dim rotation matrices."""
     fn = get_cache_file(n_dim)
     if os.path.exists(fn):
@@ -116,7 +126,7 @@ def load_cached_rot_mtxs(n_dim):
     return cache
 
 
-def save_cached_rot_mtxs(cache):
+def save_cached_rot_mtxs(cache: dict) -> None:
     """Cache the rotation matrices."""
     n_dim = cache["n_dim"]
 
@@ -124,7 +134,9 @@ def save_cached_rot_mtxs(cache):
     save_pckl(cache, fn)
 
 
-def gen_cache_rand_rot(n_dim, n_samples, regenerate=False):
+def gen_cache_rand_rot(
+    n_dim: int, n_samples: int, regenerate: bool = False
+) -> List[np.ndarray]:
     """Generate a collection of random rotation matrices in the n_dim space."""
     # get collection_file_name from n_dim
     # read cache info
@@ -160,10 +172,15 @@ def gen_cache_rand_rot(n_dim, n_samples, regenerate=False):
 
 
 def gen_disp_ds(
-    x, n_smpl_rot=100, n_rot=1, labels=None, regenerate_mtx=False, x_v=None
-):
+    x: np.ndarray,
+    n_smpl_rot: int = 100,
+    n_rot: int = 1,
+    labels: Optional[Iterable] = None,
+    regenerate_mtx: bool = False,
+    x_v: np.ndarray = None,
+) -> dict:
     """Generate a dataset for the display."""
-    d = {"t": [], "x": [], "y": [], "z": [], "l": [], "n": []}
+    d: dict = {"t": [], "x": [], "y": [], "z": [], "l": [], "n": []}
 
     n_smpl, n = x.shape
 
@@ -177,7 +194,7 @@ def gen_disp_ds(
 
     rot_mtxs = gen_cache_rand_rot(n, n_rot + 1, regenerate=regenerate_mtx)
 
-    r_d, rr_d = rot_mtxs[0]
+    r_d, _ = rot_mtxs[0]
     rot_mtxs_rot = rot_mtxs[1:]
 
     if labels is not None:
@@ -197,7 +214,7 @@ def gen_disp_ds(
         for t in np.linspace(
             np.pi * 2 * rot, np.pi * 2 * (rot + 1), n_smpl_rot, endpoint=False
         ):
-            v_p, z = get_projection(n, r_rs, rr_rs, r_d, rr_d, x.T, t)
+            v_p, z = get_projection(n, r_rs, rr_rs, r_d, x.T, t)
 
             d["t"].extend([t] * n_smpl)
             d["z"].extend(list(z))
@@ -207,7 +224,7 @@ def gen_disp_ds(
             d["n"].extend(list(range(n_smpl)))
 
             if x_v is not None:
-                v_p_v, z_v = get_projection(n, r_rs, rr_rs, r_d, rr_d, x_v.T, t)
+                v_p_v, z_v = get_projection(n, r_rs, rr_rs, r_d, x_v.T, t)
 
                 d["u"].extend(list(v_p_v[0]))
                 d["v"].extend(list(v_p_v[1]))
