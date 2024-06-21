@@ -30,9 +30,9 @@ repos:
 #    rev: v1.10.0
 #    hooks:
 #      - id: mypy
-#        #files: "^src/"
+#        files: "^src/"
 #        #files: "^src/datatour/__init__.py$"
 #        # # you have to add the things you want to type check against here
 #        # additional_dependencies:
 #        #   - numpy
-#
+

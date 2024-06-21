@@ -7,7 +7,7 @@ _VERB_INF = 2  # 2 - info
 _VERBOSITY = _VERB_INF
 
 
-def log(message, verbosity=_VERB_INF, end="\n"):
+def log(message: str, verbosity: int = _VERB_INF, end: str = "\n") -> None:
     """Simple log: Print message according to verbosity level."""
     if verbosity <= _VERBOSITY:
         print(message, end=end)

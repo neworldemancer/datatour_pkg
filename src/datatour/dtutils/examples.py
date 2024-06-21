@@ -1,9 +1,11 @@
 """Collection of example datasets for testing and demonstration purposes."""
 
+from typing import Generator
+
 import numpy as np
 
 
-def cube_5d():
+def cube_5d() -> np.ndarray:
     """Vertex coordinates of a 5-dimensional cube."""
     box = np.array(
         [
@@ -45,7 +47,7 @@ def cube_5d():
     return box
 
 
-def cube(n_dim):
+def cube(n_dim: int) -> np.ndarray:
     """Vertex coordinates of a n-dimensional cube. n_dim <= 5."""
     d = n_dim
     if d > 5:
@@ -56,7 +58,7 @@ def cube(n_dim):
     return box
 
 
-def table_4d():
+def table_4d() -> np.ndarray:
     """Vertex coordinates of a 4-dimensional table object."""
     box = np.array(
         [
@@ -98,7 +100,7 @@ def table_4d():
     return box
 
 
-def ball_shell(n_dim=6, n_points=1000):
+def ball_shell(n_dim: int = 6, n_points: int = 1000) -> np.ndarray:
     """Points distributed in a shell of a ball in n_dim dimensions."""
     box = np.random.uniform(-5, 5, size=(n_points, n_dim))
     r = np.sqrt((box**2).sum(axis=1))
@@ -107,14 +109,14 @@ def ball_shell(n_dim=6, n_points=1000):
     return box
 
 
-def sphere_equators(n_dim=4, n_phi=60):
+def sphere_equators(n_dim: int = 4, n_phi: int = 60) -> np.ndarray:
     """n_phi = number of uniformly spaced angles on the equator."""
     p = np.linspace(0, np.pi * 2, n_phi)
     c = np.cos(p)
     s = np.sin(p)
     circle = np.stack([c, s] + [[0.0] * n_phi] * (n_dim - 2), axis=1)
 
-    def permute(arr):
+    def permute(arr: list) -> Generator[list, None, None]:
         length = len(arr)
         if length <= 1:
             yield arr
@@ -123,9 +125,9 @@ def sphere_equators(n_dim=4, n_phi=60):
                 for end in permute(arr[:n] + arr[n + 1 :]):
                     yield [arr[n], *end]
 
-    def ordered_ax01_perm(perm):
+    def ordered_ax01_perm(perm: list) -> bool:
         perm_arr = np.array(perm)
-        return np.argmax(perm_arr == 0) < np.argmax(perm_arr == 1)
+        return int(np.argmax(perm_arr == 0)) < int(np.argmax(perm_arr == 1))
 
     axes = list(range(n_dim))
     box = [circle[:, perm] for perm in permute(axes) if ordered_ax01_perm(perm)]
@@ -134,7 +136,7 @@ def sphere_equators(n_dim=4, n_phi=60):
     return box
 
 
-def filled_cube(n_dim=4, n_points=1000):
+def filled_cube(n_dim: int = 4, n_points: int = 1000) -> np.ndarray:
     """Points uniformly distributed in a n-dimensional cube."""
     box = np.random.uniform(-10, 10, size=(n_points, n_dim))
     box = np.round(box)
@@ -145,7 +147,7 @@ def filled_cube(n_dim=4, n_points=1000):
     return box
 
 
-def filled_sphere(n_dim=4, n_points=1000):
+def filled_sphere(n_dim: int = 4, n_points: int = 1000) -> np.ndarray:
     """Points uniformly distributed in a n-dimensional sphere except center."""
     box = filled_cube(n_dim=n_dim, n_points=n_points)
     r = np.sqrt((box**2).sum(axis=1))
