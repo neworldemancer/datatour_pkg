@@ -191,6 +191,7 @@ def gen_disp_ds(
 
         d["u"] = []
         d["v"] = []
+        d["uvz"] = []
 
     rot_mtxs = gen_cache_rand_rot(n, n_rot + 1, regenerate=regenerate_mtx)
 
@@ -228,5 +229,6 @@ def gen_disp_ds(
 
                 d["u"].extend(list(v_p_v[0]))
                 d["v"].extend(list(v_p_v[1]))
+                d["uvz"].extend(list(z_v))
 
     return d
