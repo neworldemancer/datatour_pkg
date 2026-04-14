@@ -16,7 +16,7 @@ def get_rand_rot(
     n: int, i: int, j: int, phi: Optional[float] = None
 ) -> sparse.coo_matrix:
     """Generate a rotation matrix in the i-j plane of an n-dimensional space."""
-    phi = phi or np.random.uniform(0, np.pi * 2)
+    phi = phi if phi is not None else np.random.uniform(0, np.pi * 2)
     c = np.cos(phi)
     s = np.sin(phi)
 
